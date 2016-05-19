@@ -10,4 +10,4 @@
 1. Press Tab to open or close the map.
 
 ## Screenshot
-![Map](https://raw.githubusercontent.comIsleward-Addon-Dev-Group/MapAddon/master/Screenshot.png)
+![Map](https://raw.githubusercontent.com/Isleward-Addon-Dev-Group/MapAddon/master/Screenshot.png)
