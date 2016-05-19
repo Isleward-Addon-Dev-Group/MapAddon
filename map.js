@@ -1,6 +1,7 @@
 addons.register({
     init: function(events) {
         this.collisionMap;
+        this.mapScale = 1;
         this.uiContainer = $('.ui-container');
         this.uiMap = $('<canvas class="addon-uiMap"></canvas>')
             .appendTo(this.uiContainer);
@@ -21,6 +22,12 @@ addons.register({
             return;
         } else if (key == "tab") {
             this.drawMap(this.collisionMap);
+        } else if (key == "11") {
+            if (this.mapScale > 1)
+                this.mapScale--;
+        } else if (key == "13") {
+            if (this.mapScale < 11)
+                this.mapScale++;
         }
     },
     drawMap: function(collisionMap) {
@@ -40,14 +47,17 @@ addons.register({
         this.uiContainer.css('background-color', 'rgba(49, 33, 54, 0.5)');
 	    this.uiContainer.addClass('blocking');
         
+        this.uiMap[0].width = collisionMap[0].length * this.mapScale;
+        this.uiMap[0].height = collisionMap.length * this.mapScale;
         var ctx = this.uiMap[0].getContext('2d');
+        ctx.scale(this.mapScale, this.mapScale);
         ctx.clearRect(0, 0, this.uiMap[0].width, this.uiMap[0].height);
         for (i = 0; i < collisionMap.length; i++) {
             for (j = 0; j <collisionMap[i].length; j++) {
                 if (collisionMap[j][i] == 1) {
-                    ctx.fillStyle = "white";
-                } else {
                     ctx.fillStyle = "black";
+                } else {
+                    ctx.fillStyle = "white";
                 }
                 
                 ctx.fillRect(j, i, 1, 1);
