@@ -8,3 +8,6 @@
     * TamperMonkey: Click [this](https://raw.githubusercontent.com/Isleward-Addon-Dev-Group/MapAddon/master/Isleward - Map.user.js) link, click the Install button. (see [Using TamperMonkey](http://isleward.wikia.com/wiki/Loading_Addons_using_TamperMonkey) ) 
 1. Refresh Isleward.
 1. Press Tab to open or close the map.
+
+## Screenshot
+![Map](https://raw.githubusercontent.comIsleward-Addon-Dev-Group/MapAddon/master/Screenshot.png)
