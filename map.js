@@ -1,7 +1,7 @@
 addons.register({
     init: function(events) {
         this.collisionMap;
-        this.mapScale = 1;
+        this.mapScale = 3;
         this.uiContainer = $('.ui-container');
         this.uiMap = $('<canvas class="addon-uiMap"></canvas>')
             .appendTo(this.uiContainer);
@@ -16,22 +16,27 @@ addons.register({
         }
             
         this.collisionMap = mapData.collisionMap;
+        this.drawMap();
     },
     onKeyDown: function(key) {
         if (!key) {
             return;
         } else if (key == "tab") {
-            this.drawMap(this.collisionMap);
-        } else if (key == "11") {
-            if (this.mapScale > 1)
-                this.mapScale--;
+            this.toggleMap();
         } else if (key == "13") {
-            if (this.mapScale < 11)
+            if (this.mapScale > 1) {
+                this.mapScale--;
+                this.drawMap();
+            }
+        } else if (key == "11") {
+            if (this.mapScale < 11) {
                 this.mapScale++;
+                this.drawMap();
+            }
         }
     },
-    drawMap: function(collisionMap) {
-        if (!collisionMap) {
+    toggleMap: function() {
+        if (!this.collisionMap) {
             return;
         }
         
@@ -46,18 +51,25 @@ addons.register({
         
         this.uiContainer.css('background-color', 'rgba(49, 33, 54, 0.5)');
 	    this.uiContainer.addClass('blocking');
+    },
+    drawMap: function() {
+        if (!this.collisionMap) {
+            return;
+        }
+                
+        this.uiMap[0].width = this.collisionMap[0].length * this.mapScale;
+        this.uiMap[0].height = this.collisionMap.length * this.mapScale;
         
-        this.uiMap[0].width = collisionMap[0].length * this.mapScale;
-        this.uiMap[0].height = collisionMap.length * this.mapScale;
         var ctx = this.uiMap[0].getContext('2d');
         ctx.scale(this.mapScale, this.mapScale);
         ctx.clearRect(0, 0, this.uiMap[0].width, this.uiMap[0].height);
-        for (i = 0; i < collisionMap.length; i++) {
-            for (j = 0; j <collisionMap[i].length; j++) {
-                if (collisionMap[j][i] == 1) {
-                    ctx.fillStyle = "black";
+        
+        for (i = 0; i < this.collisionMap.length; i++) {
+            for (j = 0; j < this.collisionMap[i].length; j++) {
+                if (this.collisionMap[j][i] == 1) {
+                    ctx.fillStyle = "#663838";
                 } else {
-                    ctx.fillStyle = "white";
+                    ctx.fillStyle = "#c16f35";
                 }
                 
                 ctx.fillRect(j, i, 1, 1);
@@ -66,8 +78,8 @@ addons.register({
         
         this.uiMap.css({
             'position': "absolute",
-            'left': (this.uiContainer[0].clientWidth / 2) - ($('.addon-uiMap')[0].clientWidth / 2),
-            'top': (this.uiContainer[0].clientHeight / 2) - ($('.addon-uiMap')[0].clientHeight / 2),
+            'left': (this.uiContainer[0].clientWidth / 2) - (this.uiMap[0].width / 2),
+            'top': (this.uiContainer[0].clientHeight / 2) - (this.uiMap[0].height / 2),
         });
     }
 });
