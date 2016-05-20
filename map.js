@@ -6,9 +6,11 @@ addons.register({
         this.uiMap = $('<canvas class="addon-uiMap"></canvas>')
             .appendTo(this.uiContainer);
         
+        
         this.uiMap.css("display", "none");
         events.on('onGetMap', this.onGetMap.bind(this));
         events.on('onKeyDown', this.onKeyDown.bind(this));
+        events.on('onGetObject', this.onGetObject.bind(this));
     },
     onGetMap: function(mapData) {
         if (!mapData.collisionMap) {
@@ -16,7 +18,6 @@ addons.register({
         }
             
         this.collisionMap = mapData.collisionMap;
-        this.drawMap();
     },
     onKeyDown: function(key) {
         if (!key) {
@@ -35,6 +36,19 @@ addons.register({
             }
         }
     },
+    onGetObject: function(object) {
+        if (!object.id) {
+            return;
+        }
+        
+        if (!window.player) {
+            return;
+        }
+        
+        if (object.id == window.player.id) {
+            this.drawMap();
+        }
+    },
     toggleMap: function() {
         if (!this.collisionMap) {
             return;
@@ -51,12 +65,13 @@ addons.register({
         
         this.uiContainer.css('background-color', 'rgba(49, 33, 54, 0.5)');
 	    this.uiContainer.addClass('blocking');
+        this.drawMap();
     },
     drawMap: function() {
         if (!this.collisionMap) {
             return;
         }
-                
+        
         this.uiMap[0].width = this.collisionMap[0].length * this.mapScale;
         this.uiMap[0].height = this.collisionMap.length * this.mapScale;
         
@@ -67,19 +82,32 @@ addons.register({
         for (i = 0; i < this.collisionMap.length; i++) {
             for (j = 0; j < this.collisionMap[i].length; j++) {
                 if (this.collisionMap[j][i] == 1) {
-                    ctx.fillStyle = "#663838";
+                    ctx.fillStyle = "#757b92";
                 } else {
-                    ctx.fillStyle = "#c16f35";
+                    ctx.fillStyle = "#3c3f4c";
                 }
                 
                 ctx.fillRect(j, i, 1, 1);
             }
         }
         
+        this.drawPlayer();
+        
         this.uiMap.css({
             'position': "absolute",
             'left': (this.uiContainer[0].clientWidth / 2) - (this.uiMap[0].width / 2),
             'top': (this.uiContainer[0].clientHeight / 2) - (this.uiMap[0].height / 2),
+            'background-color': "#3c3f4c",
+            'border': "4px solid #505360",
         });
+    },
+    drawPlayer: function() {
+        var x = window.player.x;
+        var y = window.player.y;
+        
+        var ctx = this.uiMap[0].getContext('2d');
+        
+        ctx.fillStyle = "#ff0";
+        ctx.fillRect(x, y, 1, 1);
     }
 });
