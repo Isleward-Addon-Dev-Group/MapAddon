@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         Isleward - Map
 // @namespace    Isleward.Addon
-// @version      0.2
+// @version      0.3
 // @description  Displays a map of the current zone by pressing Tab. Use Num+ and Num- to zoom in/out
 // @author       Ravenheart
-// @include      isleward-test.herokuapp.com/*
+// @match        isleward-test.herokuapp.com/*
 // @grant        none
 // ==/UserScript==
 
