@@ -29,11 +29,13 @@ addons.register({
         } else if (key == "13") {
             if (this.mapScale > 1) {
                 this.mapScale--;
+                this.drawMap();
                 this.redrawMap();
             }
         } else if (key == "11") {
             if (this.mapScale < 11) {
                 this.mapScale++;
+                this.drawMap();
                 this.redrawMap();
             }
         }
@@ -104,7 +106,6 @@ addons.register({
         this.uiMap[0].height = this.collisionMap.length * this.mapScale;
         
         var ctx = this.uiMap[0].getContext('2d');
-        
         ctx.clearRect(0, 0, this.uiMap[0].width, this.uiMap[0].height);
         
         ctx.drawImage(this.hiddenMap[0], 0, 0)
