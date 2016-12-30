@@ -22,7 +22,7 @@ addons.register({
     onKeyDown: function(key) {
         if (!key) {
             return;
-        } else if (key == "tab") {
+        } else if (key == "n") {
             this.toggleMap();
         } else if (key == "13") {
             if (this.mapScale > 1) {
